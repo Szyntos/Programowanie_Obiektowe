@@ -5,21 +5,12 @@ import java.util.Arrays;
 
 public class World {
     public static void main(String[] args){
-        System.out.println("system wystartowal");
-        Direction[] dirs = Arrays.stream(args).map(World::strToDirection).toArray(Direction[]::new);
-        run(dirs);
-        System.out.println("system zakonczyl dzialanie");
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
-        MapDirection n = MapDirection.NORTH;
-        MapDirection e = MapDirection.EAST;
-        MapDirection s = MapDirection.SOUTH;
-        MapDirection w = MapDirection.WEST;
-        System.out.println(n.previous());
-
+        MoveDirection[] instructions = OptionsParser.parse(args);
+        Animal animal = new Animal();
+        for (MoveDirection instruction : instructions){
+            animal.move(instruction);
+            System.out.println(animal);
+        }
     }
 
 
