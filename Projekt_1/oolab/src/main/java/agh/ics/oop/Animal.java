@@ -26,7 +26,6 @@ public class Animal {
                         newCoordinates.x >= 0 && newCoordinates.y >= 0) {
                     coordinates = newCoordinates;
                 }
-                ;
             }
         }
     }
