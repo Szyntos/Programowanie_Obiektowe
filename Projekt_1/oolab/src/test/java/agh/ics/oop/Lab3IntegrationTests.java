@@ -99,7 +99,7 @@ public class Lab3IntegrationTests {
         MoveDirection[] instructions = OptionsParser.parse(args);
         Assertions.assertArrayEquals(correctInstructions, instructions);
         Animal animal = new Animal();
-        for (MoveDirection instruction : instructions){;
+        for (MoveDirection instruction : instructions){
             animal.move(instruction);
 //            System.out.println(animal);
         }
