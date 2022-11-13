@@ -4,7 +4,10 @@
 Projekt_1/oolab/.idea/*
 Projekt_1/oolab/.gradle/*
 asdladk/
-
+Projekt_1/oolab/.gradle
+Projekt_1/oolab/build
+Projekt_1/oolab/build/
+Projekt_1/oolab/build/*
 ### Java ###
 # Compiled class file
 *.class
