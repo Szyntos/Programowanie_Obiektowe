@@ -3,14 +3,12 @@ package agh.ics.oop;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 public class Lab4IntegrationTests {
     public MapDirection getAnimalDirection(Animal animal){
         return animal.getCurrDirection();
     }
     public Vector2d getAnimalCoordinates(Animal animal){
-        return animal.getCoordinates();
+        return animal.getPosition();
     }
     @Test
     public void runIntegrationTest(){

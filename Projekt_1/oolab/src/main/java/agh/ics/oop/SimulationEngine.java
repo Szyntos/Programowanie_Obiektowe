@@ -17,9 +17,9 @@ public class SimulationEngine implements IEngine{
 
         this.noMoves = this.moves.length;
         Animal tmp;
-        for (int i = 0; i < initialPositions.length; i++) {
-            tmp = new Animal(map, initialPositions[i]);
-            if (map.place(tmp)){
+        for (Vector2d initialPosition : initialPositions) {
+            tmp = new Animal(map, initialPosition);
+            if (map.place(tmp)) {
                 animals.add(tmp);
             }
         }
