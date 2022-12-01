@@ -1,15 +1,19 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GrassField extends AbstractWorldMap{
-    List<Grass> grasses = new ArrayList<>();
+    Map<Vector2d, Grass> grasses = new HashMap<>();
     int n;
     public GrassField(int n){
         this.n = n;
+        Grass newGrass;
         for (int i = 0; i < n; i++){
-            grasses.add(addGrass(new Vector2d(0, 0), true));
+            newGrass = addGrass(new Vector2d(0, 0), true);
+            grasses.put(newGrass.getPosition(), newGrass);
         }
     }
     public Grass addGrass(Vector2d notHere, boolean everywhere){
@@ -18,14 +22,14 @@ public class GrassField extends AbstractWorldMap{
         randomPosition = new Vector2d((int) (Math.random()*Math.sqrt(n*10)),
                 (int) (Math.random()*Math.sqrt(n*10)));
         flag = 0;
-        for (Grass grass : grasses){
-            if (grass.isAt(randomPosition)) {
+        for (Map.Entry<Vector2d, Grass> set : grasses.entrySet()){
+            if (set.getKey().equals(randomPosition)) {
                 flag = 1;
                 break;
             }
         }
-        for (Animal animal : animals){
-            if (animal.isAt(randomPosition)) {
+        for (Map.Entry<Vector2d, Animal> set : animals.entrySet()){
+            if (set.getKey().equals(randomPosition)) {
                 flag = 1;
                 break;
             }
@@ -37,14 +41,14 @@ public class GrassField extends AbstractWorldMap{
             randomPosition = new Vector2d((int) (Math.random()*Math.sqrt(n*10)),
                     (int) (Math.random()*Math.sqrt(n*10)));
             flag = 0;
-            for (Grass grass : grasses){
-                if (grass.isAt(randomPosition)) {
+            for (Map.Entry<Vector2d, Grass> set : grasses.entrySet()){
+                if (set.getKey().equals(randomPosition)) {
                     flag = 1;
                     break;
                 }
             }
-            for (Animal animal : animals){
-                if (animal.isAt(randomPosition)) {
+            for (Map.Entry<Vector2d, Animal> set : animals.entrySet()){
+                if (set.getKey().equals(randomPosition)) {
                     flag = 1;
                     break;
                 }
@@ -58,47 +62,55 @@ public class GrassField extends AbstractWorldMap{
     public Vector2d[] getBorders(){
         Vector2d[] borderVectors = new Vector2d[2];
         int [] borders = {0, 0, 0, 0};
+        Vector2d defaultMinimalPosition = new Vector2d(0, 0);
+        Vector2d defaultMaximalPosition = new Vector2d(1, 1);
+
+        for (Map.Entry<Vector2d, Grass> set : grasses.entrySet()){
+            defaultMinimalPosition = set.getKey();
+            defaultMaximalPosition = set.getKey();
+            break;
+        }
         if (grasses.size() > 0){
-            borders[0] = grasses.get(0).getPosition().x;
-            borders[1] = grasses.get(0).getPosition().y;
-            borders[2] = grasses.get(0).getPosition().x;
-            borders[3] = grasses.get(0).getPosition().y;
+            borders[0] = defaultMinimalPosition.x;
+            borders[1] = defaultMinimalPosition.y;
+            borders[2] = defaultMaximalPosition.x;
+            borders[3] = defaultMaximalPosition.y;
         }else if(animals.size() > 0){
-            borders[0] = animals.get(0).getPosition().x;
-            borders[1] = animals.get(0).getPosition().y;
-            borders[2] = animals.get(0).getPosition().x;
-            borders[3] = animals.get(0).getPosition().y;
+            borders[0] = defaultMinimalPosition.x;
+            borders[1] = defaultMinimalPosition.y;
+            borders[2] = defaultMaximalPosition.x;
+            borders[3] = defaultMaximalPosition.y;
         }else {
             borderVectors[0] = new Vector2d(0, 0);
             borderVectors[1] = new Vector2d(1, 1);
             return borderVectors;
         }
-        for (Grass grass : grasses){
-            if (grass.getPosition().x < borders[0]){
-                borders[0] = grass.getPosition().x;
+        for (Map.Entry<Vector2d, Grass> set : grasses.entrySet()){
+            if (set.getKey().x < borders[0]){
+                borders[0] = set.getKey().x;
             }
-            if (grass.getPosition().y < borders[1]){
-                borders[1] = grass.getPosition().y;
+            if (set.getKey().y < borders[1]){
+                borders[1] = set.getKey().y;
             }
-            if (grass.getPosition().x > borders[2]){
-                borders[2] = grass.getPosition().x;
+            if (set.getKey().x > borders[2]){
+                borders[2] = set.getKey().x;
             }
-            if (grass.getPosition().y > borders[3]){
-                borders[3] = grass.getPosition().y;
+            if (set.getKey().y > borders[3]){
+                borders[3] = set.getKey().y;
             }
         }
-        for (Animal animal : animals){
-            if (animal.getPosition().x < borders[0]){
-                borders[0] = animal.getPosition().x;
+        for (Map.Entry<Vector2d, Animal> set : animals.entrySet()){
+            if (set.getKey().x < borders[0]){
+                borders[0] = set.getKey().x;
             }
-            if (animal.getPosition().y < borders[1]){
-                borders[1] = animal.getPosition().y;
+            if (set.getKey().y < borders[1]){
+                borders[1] = set.getKey().y;
             }
-            if (animal.getPosition().x > borders[2]){
-                borders[2] = animal.getPosition().x;
+            if (set.getKey().x > borders[2]){
+                borders[2] = set.getKey().x;
             }
-            if (animal.getPosition().y > borders[3]){
-                borders[3] = animal.getPosition().y;
+            if (set.getKey().y > borders[3]){
+                borders[3] = set.getKey().y;
             }
         }
         borderVectors[0] = new Vector2d(borders[0], borders[1]);
@@ -107,21 +119,30 @@ public class GrassField extends AbstractWorldMap{
     }
 
     void addAnimal(Animal animal) {
-        animals.add(animal);
+        animals.put(animal.getPosition(), animal);
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        for (Animal animal: animals) {
-            if (animal.isAt(position)) {
+        for (Map.Entry<Vector2d, Animal> set : animals.entrySet()){
+            if (set.getValue().isAt(position)) {
                 return false;
             }
         }
-        for (int i = 0; i < grasses.size(); i++){
-            Grass grass = grasses.get(i);
+        Grass grassToDelete = new Grass(new Vector2d(0, 0));
+        boolean deleting = false;
+        for (Map.Entry<Vector2d, Grass> set : grasses.entrySet()){
+            Grass grass = set.getValue();
             if (grass.isAt(position)){
-                grasses.set(i, addGrass(position, false));
+                grassToDelete = grass;
+                deleting = true;
+                break;
             }
+        }
+        if (deleting){
+            grasses.remove(grassToDelete.getPosition());
+            Grass newGrass = addGrass(position, false);
+            grasses.put(newGrass.getPosition(), newGrass);
         }
         return true;
     }
@@ -129,32 +150,25 @@ public class GrassField extends AbstractWorldMap{
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for (Animal animal: animals) {
-            if (animal.isAt(position)) {
-                return true;
-            }
-        }
-        for (Grass grass: grasses) {
-            if (grass.isAt(position)) {
-                return true;
-            }
-        }
-        return false;
+        return animals.containsKey(position) || grasses.containsKey(position);
+
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animal: animals) {
-            if (animal.isAt(position)) {
-                return animal;
-            }
+        if (animals.containsKey(position)){
+            return animals.get(position);
         }
-        for (Grass grass: grasses) {
-            if (grass.isAt(position)) {
-                return grass;
-            }
+        if (grasses.containsKey(position)){
+            return grasses.get(position);
         }
         return null;
     }
 
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal Grzegorz = animals.get(oldPosition);
+        animals.remove(oldPosition);
+        animals.put(newPosition, Grzegorz);
+    }
 }

@@ -17,7 +17,7 @@ public class RectangularMap extends AbstractWorldMap{
 
     @Override
     void addAnimal(Animal animal) {
-        animals.add(animal);
+        animals.put(animal.getPosition(), animal);
     }
 
     @Override
@@ -31,21 +31,21 @@ public class RectangularMap extends AbstractWorldMap{
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for (Animal animal: animals) {
-            if (animal.isAt(position)) {
-                return true;
-            }
-        }
-        return false;
+        return animals.containsKey(position);
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animal: animals) {
-            if (animal.isAt(position)) {
-                return animal;
-            }
+        if (animals.containsKey(position)){
+            return animals.get(position);
         }
         return null;
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal Grzegorz = animals.get(oldPosition);
+        animals.remove(oldPosition);
+        animals.put(newPosition, Grzegorz);
     }
 }

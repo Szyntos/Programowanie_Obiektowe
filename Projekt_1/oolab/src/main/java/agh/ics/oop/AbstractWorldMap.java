@@ -1,10 +1,12 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-abstract class AbstractWorldMap implements IWorldMap{
-    List<Animal> animals = new ArrayList<>();
+abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+    Map<Vector2d, Animal> animals = new HashMap<>();
     MapVisualizer visualizer = new MapVisualizer(this);
     abstract Vector2d[] getBorders();
     abstract void addAnimal(Animal animal);
