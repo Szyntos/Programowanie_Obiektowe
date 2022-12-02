@@ -10,12 +10,14 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     MapVisualizer visualizer = new MapVisualizer(this);
     abstract Vector2d[] getBorders();
     abstract void addAnimal(Animal animal);
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException{
         if (canMoveTo(animal.getPosition())){
             addAnimal(animal);
             return true;
         }
-        else return false;
+        else{
+            throw new IllegalArgumentException("Na polu " + animal.getPosition().toString() + " nie mozna dodac zwierzecia");
+        }
     }
     public String toString() {
         Vector2d lowerLeft = this.getBorders()[0];

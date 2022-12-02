@@ -8,6 +8,7 @@ import java.util.Map;
 public class GrassField extends AbstractWorldMap{
     Map<Vector2d, Grass> grasses = new HashMap<>();
     int n;
+
     public GrassField(int n){
         this.n = n;
         Grass newGrass;

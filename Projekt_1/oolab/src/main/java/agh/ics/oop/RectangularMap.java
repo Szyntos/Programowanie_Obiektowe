@@ -6,6 +6,7 @@ import java.util.List;
 public class RectangularMap extends AbstractWorldMap{
     int width;
     int height;
+    MapBoundary boundary;
 
     public RectangularMap(int width, int height){
         this.width = width;
