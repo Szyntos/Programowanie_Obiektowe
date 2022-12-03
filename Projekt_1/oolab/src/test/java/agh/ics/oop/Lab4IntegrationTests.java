@@ -16,7 +16,7 @@ public class Lab4IntegrationTests {
         int height = 5;
 
         IWorldMap map = new RectangularMap(10, 5);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(2,3), new Vector2d(2, 2), new Vector2d(2,3)};
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(2,3)};
         Vector2d[] correctCoordinates = {new Vector2d(2, 2), new Vector2d(2, 3)};
         MapDirection[] correctDirection = {MapDirection.NORTH, MapDirection.NORTH};
         int n = 50;

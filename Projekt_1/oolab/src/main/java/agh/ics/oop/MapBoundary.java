@@ -1,21 +1,32 @@
 package agh.ics.oop;
 
 import java.util.Comparator;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 
 public class MapBoundary implements IPositionChangeObserver{
-    Comparator<Vector2d> byX = (Vector2d x1, Vector2d x2) -> x1.x - x2.x;
-    Comparator<Vector2d> byY = (Vector2d y1, Vector2d y2) -> y1.y - y2.y;
-    SortedMap<Vector2d, IMapElement> sortedObjectsX = new TreeMap<Vector2d, IMapElement>(byX);
-    SortedMap<Vector2d, IMapElement> sortedObjectsY = new TreeMap<Vector2d, IMapElement>(byY);
-
+    Comparator<Vector2d> byX = Comparator.comparingInt((Vector2d x) -> x.x);
+    Comparator<Vector2d> byY = Comparator.comparingInt((Vector2d y) -> y.y);
+    SortedSet<Vector2d> sortedObjectsX = new TreeSet<>(byX);
+    SortedSet<Vector2d> sortedObjectsY = new TreeSet<>(byY);
+    public Vector2d[] getBoundary(){
+        Vector2d[] borderVectors = new Vector2d[2];
+        borderVectors[0] = new Vector2d(sortedObjectsX.first().x, sortedObjectsY.first().y);
+        borderVectors[1] = new Vector2d(sortedObjectsX.last().x, sortedObjectsY.last().y);
+        return borderVectors;
+    }
+    public void addObject(Vector2d position){
+        sortedObjectsX.add(position);
+        sortedObjectsY.add(position);
+    }
+    public void removeObject(Vector2d position){
+        sortedObjectsX.remove(position);
+        sortedObjectsY.remove(position);
+    }
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        IMapElement Grzegorz = sortedObjectsX.get(oldPosition);
-        sortedObjectsX.remove(oldPosition);
-        sortedObjectsX.put(newPosition, Grzegorz);
-        sortedObjectsY.remove(oldPosition);
-        sortedObjectsY.put(newPosition, Grzegorz);
+        removeObject(oldPosition);
+        addObject(newPosition);
     }
 }

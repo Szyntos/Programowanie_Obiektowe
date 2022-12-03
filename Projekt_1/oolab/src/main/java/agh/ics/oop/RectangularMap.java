@@ -13,7 +13,7 @@ public class RectangularMap extends AbstractWorldMap{
         this.height = height;
     }
     public Vector2d[] getBorders(){
-        return new Vector2d[]{new Vector2d(0, 0), new Vector2d(this.width-1, this.height-1)};
+        return boundary.getBoundary();
     }
 
     @Override

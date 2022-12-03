@@ -5,13 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     Map<Vector2d, Animal> animals = new HashMap<>();
     MapVisualizer visualizer = new MapVisualizer(this);
-    abstract Vector2d[] getBorders();
+    MapBoundary boundary = new MapBoundary();
+    abstract public Vector2d[] getBorders();
     abstract void addAnimal(Animal animal);
     public boolean place(Animal animal) throws IllegalArgumentException{
         if (canMoveTo(animal.getPosition())){
+            animal.addObserver(this);
+            animal.addObserver(boundary);
+            boundary.addObject(animal.getPosition());
             addAnimal(animal);
             return true;
         }
