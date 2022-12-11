@@ -10,9 +10,6 @@ public class World {
     public static void main(String[] args){
         try{
             Application.launch(App.class, args);
-
-
-
         }catch (IllegalArgumentException ex){
             System.out.println(ex.getMessage());
         }

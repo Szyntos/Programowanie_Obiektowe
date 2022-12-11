@@ -11,6 +11,9 @@ public class RectangularMap extends AbstractWorldMap{
     public RectangularMap(int width, int height){
         this.width = width;
         this.height = height;
+        boundary = new MapBoundary();
+        boundary.addObject(new Vector2d(0, 0));
+        boundary.addObject(new Vector2d(width, height));
     }
     public Vector2d[] getBorders(){
         return boundary.getBoundary();
@@ -43,10 +46,4 @@ public class RectangularMap extends AbstractWorldMap{
         return null;
     }
 
-    @Override
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        Animal Grzegorz = animals.get(oldPosition);
-        animals.remove(oldPosition);
-        animals.put(newPosition, Grzegorz);
-    }
 }

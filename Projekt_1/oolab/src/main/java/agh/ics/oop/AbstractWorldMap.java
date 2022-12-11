@@ -28,4 +28,10 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         Vector2d upperRight = this.getBorders()[1];
         return visualizer.draw(lowerLeft, upperRight);
     }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal Grzegorz = animals.get(oldPosition);
+        animals.remove(oldPosition);
+        animals.put(newPosition, Grzegorz);
+    }
 }

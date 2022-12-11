@@ -170,10 +170,4 @@ public class GrassField extends AbstractWorldMap{
         return null;
     }
 
-    @Override
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        Animal Grzegorz = animals.get(oldPosition);
-        animals.remove(oldPosition);
-        animals.put(newPosition, Grzegorz);
-    }
 }

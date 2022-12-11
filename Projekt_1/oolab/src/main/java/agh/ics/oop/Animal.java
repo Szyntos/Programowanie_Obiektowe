@@ -1,5 +1,9 @@
 package agh.ics.oop;
 
+import javafx.scene.image.Image;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,17 @@ public class Animal implements IMapElement{
     public boolean isAt(Vector2d position){
         return this.position.equals(position);
     }
+
+    @Override
+    public Image getVisualRepresentation() throws FileNotFoundException {
+        return switch (currDirection){
+            case NORTH -> new Image(new FileInputStream("src/main/resources/UpDog.jpg"));
+            case EAST -> new Image(new FileInputStream("src/main/resources/RightDog.jpg"));
+            case SOUTH -> new Image(new FileInputStream("src/main/resources/DownDog.jpg"));
+            case WEST -> new Image(new FileInputStream("src/main/resources/LeftDog.jpg"));
+        };
+    }
+
     public void move(MoveDirection direction){
         switch (direction) {
             case LEFT -> currDirection = currDirection.previous();
